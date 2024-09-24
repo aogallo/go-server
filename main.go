@@ -19,6 +19,8 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 
 	userController := controllers.NewUserController(db)
 
+	rolController := controllers.NewRolController(db)
+
 	// Ping test
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
@@ -26,6 +28,8 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 
 	// Get user value
 	r.GET("/users", userController.GetUsers)
+
+	r.GET("/rol", rolController.GetRoles)
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:
@@ -69,7 +73,7 @@ func main() {
 	database := config.ConnectDB()
 	defer config.DisconnectDB(database)
 
-	database.AutoMigrate(&models.User{})
+	database.AutoMigrate(&models.User{}, &models.Rol{})
 
 	r := setupRouter(database)
 	// Listen and Server in 0.0.0.0:8080

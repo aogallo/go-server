@@ -19,7 +19,7 @@ func NewUserController(db *gorm.DB) *UserController {
 func (uc *UserController) GetUsers(c *gin.Context) {
 	var users []models.User
 
-	if err := uc.DB.Find(&users).Error; err != nil {
+	if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retriving users"})
 		return
 	}
