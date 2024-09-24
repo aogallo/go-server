@@ -13,5 +13,5 @@ type User struct {
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	Roles     []Rol     `json:"roles"`
+	Roles     []Rol     `gorm:"many2many:user_roles;" json:"roles"`
 }
