@@ -1,12 +1,19 @@
 # Rest API with Golang
 
-## Description
+## Table of Contents
 
-## Table of Content
+- [About Project](#about-project)
+  > - [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - []()
 
-## Built with
+## About Project
 
-This RestAPI was built-in with:
+## Tech Stack
+
+- [Golang](https://go.dev/): Programing Language
+- [Gorm](https://gorm.io/index.html): The fantastic ORM library for Golang
+- [Postgresql](https://www.postgresql.org/): Database
 
 ## Getting Started
 
@@ -14,11 +21,7 @@ This RestAPI was built-in with:
 
 Make sure Go is installed. Click [here](https://go.dev/doc/install) to download.
 
-Clone the repository.
-
-```bash
-git clone git@github.com:aogallo/go-server.git
-```
+### Environment Variables
 
 This repository connects to Postgresql database, so create a `.env` file and add the following variables if you have Postgresql locally:
 
@@ -26,12 +29,24 @@ This repository connects to Postgresql database, so create a `.env` file and add
  DATABASE_URL="host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
 ```
 
-## How to user the project
+### Run Locally
 
-First you can clone the repository [go server]("https://github.com/aogallo/go-server")
+Clone the project
 
-You need to create an `.env` file, and add the following values:
-
+```bash
+git clone git@github.com:aogallo/go-server.git
 ```
-DATABASE_URL="postgresql://<USER>:<PASSWORD>@<HOST>/<DATABASE_NAME>?sslmode=require"
+
+Go to the project directory
+
+```bash
+cd go-server
 ```
+
+Start the server
+
+```bash
+go run .
+```
+
+### Running Tests
