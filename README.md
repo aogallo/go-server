@@ -5,11 +5,14 @@
 - [About Project](#about-project)
   > - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
-  - []()
+  - [Prerequisites](#prerequisistes)
+  - [Environment variables](#environment-variables)
+  - [Run Locally](#run-locally)
+  - [Running Tests](#running-tests)
 
 ## About Project
 
-## Tech Stack
+### Tech Stack
 
 - [Golang](https://go.dev/): Programing Language
 - [Gorm](https://gorm.io/index.html): The fantastic ORM library for Golang
@@ -19,7 +22,10 @@
 
 ### Prerequisites
 
-Make sure Go is installed. Click [here](https://go.dev/doc/install) to download.
+Make sure Go and Postgresql are installed.
+
+- Golang: [Download Golang](https://go.dev/doc/install)
+- Postgresql: [Download Postgresql](https://www.postgresql.org/download/)
 
 ### Environment Variables
 
