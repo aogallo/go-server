@@ -7,6 +7,8 @@ import (
 	"github.com/aogallo/go-server/controllers"
 	"github.com/aogallo/go-server/models"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
@@ -76,6 +78,10 @@ func main() {
 	defer config.DisconnectDB(database)
 
 	database.AutoMigrate(&models.User{}, &models.Rol{})
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterStructValidation(controllers.RolStructLevelValidation, models.Rol{})
+	}
 
 	r := setupRouter(database)
 	// Listen and Server in 0.0.0.0:8080
