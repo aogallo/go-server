@@ -21,3 +21,13 @@ func (rc *RolController) GetRoles(c *gin.Context) {
 
 	c.JSON(http.StatusOK, roles)
 }
+
+func (rc *RolController) CreateRol(c *gin.Context) {
+	var rol models.Rol
+
+	c.Bind(&rol)
+
+	print(&rol)
+
+	c.JSON(http.StatusOK, rol)
+}

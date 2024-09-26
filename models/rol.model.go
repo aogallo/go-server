@@ -4,7 +4,7 @@ import "time"
 
 type Rol struct {
 	ID        uint      `json:"id"`
-	Name      string    `json:"name"`
+	Name      string    `json:"name" form:"name" binding:"required"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
