@@ -29,7 +29,9 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 	// Get user value
 	r.GET("/users", userController.GetUsers)
 
+	// Rol Routes
 	r.GET("/rol", rolController.GetRoles)
+	r.POST("/rol", rolController.CreateRol)
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:
