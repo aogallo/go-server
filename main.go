@@ -6,6 +6,7 @@ import (
 	"github.com/aogallo/go-server/config"
 	"github.com/aogallo/go-server/controllers"
 	"github.com/aogallo/go-server/models"
+	"github.com/aogallo/go-server/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -14,26 +15,21 @@ import (
 
 var db = make(map[string]string)
 
-func setupRouter(db *gorm.DB) *gin.Engine {
+func SetupRouter(db *gorm.DB) *gin.Engine {
 	// Disable Console Color
 	// gin.DisableConsoleColor()
 	r := gin.Default()
-
-	userController := controllers.NewUserController(db)
-
-	rolController := controllers.NewRolController(db)
 
 	// Ping test
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})
 
-	// Get user value
-	r.GET("/users", userController.GetUsers)
+	// User Routes
+	routes.SetupUserRoutes(r, db)
 
 	// Rol Routes
-	r.GET("/rol", rolController.GetRoles)
-	r.POST("/rol", rolController.CreateRol)
+	routes.SetupRolRoutes(r, db)
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:
@@ -85,7 +81,7 @@ func main() {
 		v.RegisterStructValidation(controllers.RolStructLevelValidation, models.Rol{})
 	}
 
-	r := setupRouter(database)
+	r := SetupRouter(database)
 	// Listen and Server in 0.0.0.0:8080
 	r.Run(":8080")
 }
