@@ -15,6 +15,14 @@ type RolController struct {
 
 var validate *validator.Validate
 
+func RolStructLevelValidation(sl validator.StructLevel) {
+	rol := sl.Current().Interface().(models.Rol)
+
+	if rol.Name == "" {
+		sl.ReportError(rol.Name, "Name", "name", "name", "")
+	}
+}
+
 func NewRolController(db *gorm.DB) *RolController {
 	return &RolController{DB: db}
 }
@@ -35,15 +43,20 @@ func (rc *RolController) CreateRol(c *gin.Context) {
 
 	result := rc.DB.Create(&rol)
 
-	print("result", result, &rol)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "The rol could not be created", "error": "", "success": false})
+		return
+	}
 
 	c.JSON(http.StatusOK, rol)
 }
 
-func RolStructLevelValidation(sl validator.StructLevel) {
-	rol := sl.Current().Interface().(models.Rol)
+func (rc *RolController) DeleteRol(c *gin.Context) {
+	id := c.Param("id")
 
-	if rol.Name == "" {
-		sl.ReportError(rol.Name, "Name", "name", "name", "")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Rol validation failed!", "error": "The id is not valided", "success": false})
+		return
 	}
+
 }

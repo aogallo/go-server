@@ -77,8 +77,10 @@ func main() {
 	database := config.ConnectDB()
 	defer config.DisconnectDB(database)
 
+	// Migrate the schemas
 	database.AutoMigrate(&models.User{}, &models.Rol{})
 
+	// validations
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterStructValidation(controllers.RolStructLevelValidation, models.Rol{})
 	}
