@@ -24,5 +24,5 @@ func (uc *UserController) GetUsers(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": users})
 }

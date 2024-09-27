@@ -37,7 +37,7 @@ func (rc *RolController) GetRoles(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, roles)
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": roles})
 }
 
 func (rc *RolController) CreateRol(c *gin.Context) {
@@ -55,7 +55,7 @@ func (rc *RolController) CreateRol(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, rol)
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": rol})
 }
 
 func (rc *RolController) DeleteRol(c *gin.Context) {
@@ -126,5 +126,5 @@ func (rc *RolController) GetRolById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, rol)
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": rol})
 }

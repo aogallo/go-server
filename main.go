@@ -4,12 +4,9 @@ import (
 	"net/http"
 
 	"github.com/aogallo/go-server/config"
-	"github.com/aogallo/go-server/controllers"
 	"github.com/aogallo/go-server/models"
 	"github.com/aogallo/go-server/routes"
 	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
-	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
