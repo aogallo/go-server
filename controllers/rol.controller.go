@@ -59,4 +59,13 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 		return
 	}
 
+	result := rc.DB.Delete(&models.Rol{}, id)
+
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "The rol could not be deleted", "error": "", "success": false})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"success": true})
+
 }
