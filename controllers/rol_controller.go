@@ -15,14 +15,6 @@ type RolController struct {
 
 var validate *validator.Validate
 
-func RolStructLevelValidation(sl validator.StructLevel) {
-	rol := sl.Current().Interface().(models.Rol)
-
-	if rol.Name == "" {
-		sl.ReportError(rol.Name, "Name", "name", "name", "")
-	}
-}
-
 func NewRolController(db *gorm.DB) *RolController {
 	return &RolController{DB: db}
 }
@@ -66,7 +58,16 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 		return
 	}
 
-	result := rc.DB.Delete(&models.Rol{}, id)
+	var rolDb models.Rol
+
+	result := rc.DB.First(&rolDb, id)
+
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Rol validation failed!", "error": "The Rol does not exist", "success": false})
+		return
+	}
+
+	result = rc.DB.Delete(&models.Rol{}, id)
 
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "The rol could not be deleted", "error": "", "success": false})
@@ -74,7 +75,6 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"success": true})
-
 }
 
 func (rc *RolController) UpdateRol(c *gin.Context) {
