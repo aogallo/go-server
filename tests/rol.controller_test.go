@@ -3,6 +3,7 @@ package tests
 import (
 	"net/http"
 	"net/http/httptest"
+	"path/filepath"
 	"testing"
 
 	"github.com/aogallo/go-server/config"
@@ -14,7 +15,8 @@ import (
 var db = make(map[string]string)
 
 func TestPingRoute(t *testing.T) {
-	database := config.ConnectDB()
+	path := filepath.Join("../", ".env.test")
+	database := config.ConnectDB(path)
 	defer config.DisconnectDB(database)
 
 	router := routes.SetupRouter(database)

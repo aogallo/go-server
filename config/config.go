@@ -9,8 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConnectDB() *gorm.DB {
-	errorEnv := godotenv.Load()
+func ConnectDB(path string) *gorm.DB {
+	errorEnv := godotenv.Load(path)
 	if errorEnv != nil {
 		fmt.Printf("testing %+v", errorEnv)
 		panic("Failed to load the configurations")
@@ -39,5 +39,4 @@ func DisconnectDB(db *gorm.DB) {
 	}
 
 	dbSql.Close()
-
 }

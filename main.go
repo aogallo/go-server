@@ -9,7 +9,7 @@ import (
 var db = make(map[string]string)
 
 func main() {
-	database := config.ConnectDB()
+	database := config.ConnectDB(".env")
 	defer config.DisconnectDB(database)
 
 	// Migrate the schemas
