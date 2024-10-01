@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -11,6 +12,7 @@ import (
 func ConnectDB() *gorm.DB {
 	errorEnv := godotenv.Load()
 	if errorEnv != nil {
+		fmt.Printf("testing %+v", errorEnv)
 		panic("Failed to load the configurations")
 	}
 
