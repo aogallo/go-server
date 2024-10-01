@@ -17,11 +17,13 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		c.String(http.StatusOK, "pong")
 	})
 
+	apiV1 := r.Group("/api/v1")
+
 	// User Routes
-	SetupUserRoutes(r, db)
+	SetupUserRoutes(apiV1, db)
 
 	// Rol Routes
-	SetupRolRoutes(r, db)
+	SetupRolRoutes(apiV1, db)
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:

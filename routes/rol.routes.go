@@ -6,8 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupRolRoutes(r *gin.Engine, db *gorm.DB) {
-
+func SetupRolRoutes(r *gin.RouterGroup, db *gorm.DB) {
 	rolController := controllers.NewRolController(db)
 
 	r.GET("/rol", rolController.GetRoles)
@@ -15,5 +14,4 @@ func SetupRolRoutes(r *gin.Engine, db *gorm.DB) {
 	r.POST("/rol", rolController.CreateRol)
 	r.DELETE("/rol/:id", rolController.DeleteRol)
 	r.PUT("/rol/:id", rolController.UpdateRol)
-
 }
