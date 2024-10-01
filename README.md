@@ -5,7 +5,7 @@
 - [About Project](#about-project)
   > - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisistes)
+  - [Prerequisites](#prerequisites)
   - [Environment variables](#environment-variables)
   - [Run Locally](#run-locally)
   - [Running Tests](#running-tests)
@@ -15,6 +15,7 @@
 ### Tech Stack
 
 - [Golang](https://go.dev/): Programing Language
+- [Gin](https://gin-gonic.com/docs/): Gin is a HTTP web framework written in Go (Golang)
 - [Gorm](https://gorm.io/index.html): The fantastic ORM library for Golang
 - [Postgresql](https://www.postgresql.org/): Database
 
@@ -31,7 +32,7 @@ Make sure Go and Postgresql are installed.
 
 This repository connects to Postgresql database, so create a `.env` file and add the following variables if you have Postgresql locally:
 
-```
+```json
  DATABASE_URL="host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
 ```
 
