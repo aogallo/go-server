@@ -15,11 +15,6 @@ func main() {
 	// Migrate the schemas
 	database.AutoMigrate(&models.User{}, &models.Rol{})
 
-	// // validations
-	// if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-	// 	v.RegisterStructValidation(controllers.RolStructLevelValidation, models.Rol{})
-	// }
-
 	r := routes.SetupRouter(database)
 
 	// Listen and Server in 0.0.0.0:8080
