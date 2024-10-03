@@ -46,3 +46,22 @@ func (uc *UserController) CreateUser(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"success": true})
 }
+
+func (uc *UserController) GetUserById(context *gin.Context) {
+	id := context.Param("id")
+
+	user, error := getUserById(id, uc)
+
+	if error != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
+	}
+
+	context.JSON(http.StatusOK, gin.H{"success": true, "data": user})
+}
+
+func getUserById(id string, uc *UserController) (models.User, error) {
+	var user models.User
+	result := uc.DB.First(&user, id)
+
+	return user, result.Error
+}
