@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/aogallo/go-server/models"
@@ -109,8 +108,6 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 		Email:     user.Email,
 		Roles:     user.Roles,
 	})
-
-	fmt.Printf("result %v", updatedResult)
 
 	if updatedResult.Error != nil {
 		context.IndentedJSON(http.StatusNotFound, gin.H{
