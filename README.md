@@ -32,7 +32,7 @@ Make sure Go and Postgresql are installed.
 
 This repository connects to Postgresql database, so create a `.env` file and add the following variables if you have Postgresql locally:
 
-```json
+```zsh
  DATABASE_URL="host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
 ```
 

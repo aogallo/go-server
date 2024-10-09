@@ -43,7 +43,7 @@ func (rc *RolController) CreateRol(c *gin.Context) {
 	result := rc.DB.Create(&rol)
 
 	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "The rol could not be created", "error": "", "success": false})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "The rol could not be created", "error": result.Error.Error(), "success": false})
 		return
 	}
 
