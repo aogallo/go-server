@@ -24,12 +24,22 @@ type UserResponse struct {
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	Roles     []Rol     `json:"roles"`
+	Roles     []Rol     `json:"roles" `
 }
 
 type UserUpdate struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
-	Roles     []Rol  `json:"roles"`
+	Roles     []Rol  `json:"roles" `
+}
+
+func (uc *User) ToResponse() UserResponse {
+	return UserResponse{
+		ID:        uc.ID,
+		FirstName: uc.FirstName,
+		LastName:  uc.LastName,
+		Email:     uc.Email,
+		Roles:     uc.Roles,
+	}
 }

@@ -18,14 +18,25 @@ func NewUserController(db *gorm.DB) *UserController {
 }
 
 func (uc *UserController) GetUsers(c *gin.Context) {
-	var users []models.UserResponse
+	var users []models.User
 
-	if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
+	// if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
+	// if err := uc.DB.Preload("Roles").Find(&users).Error; err != nil {
+
+	if err := uc.DB.Model(&models.User{}).Preload("Roles", func(db *gorm.DB) *gorm.DB {
+		print("users")
+		return db.Select("id", "name")
+	}).Find(&users).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retriving users"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"success": true, "data": users})
+	responses := make([]models.UserResponse, len(users))
+	for i, user := range users {
+		responses[i] = user.ToResponse()
+	}
+
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": responses})
 }
 
 func (uc *UserController) CreateUser(context *gin.Context) {
@@ -68,14 +79,17 @@ func (uc *UserController) GetUserById(context *gin.Context) {
 
 	if error != nil {
 		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
+		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"success": true, "data": user})
+	context.JSON(http.StatusOK, gin.H{"success": true, "data": user.ToResponse()})
 }
 
 func getUserById(id string, uc *UserController) (models.User, error) {
 	var user models.User
-	result := uc.DB.First(&user, id)
+	result := uc.DB.Model(&models.User{}).Preload("Roles", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id", "name")
+	}).First(&user, id)
 
 	return user, result.Error
 }
