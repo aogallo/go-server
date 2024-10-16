@@ -3,8 +3,8 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/aogallo/go-server/models"
-	"github.com/aogallo/go-server/utils"
+	"github.com/aogallo/go-server/internal/models"
+	"github.com/aogallo/go-server/internal/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

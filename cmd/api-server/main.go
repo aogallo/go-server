@@ -1,16 +1,14 @@
 package main
 
 import (
-	"github.com/aogallo/go-server/config"
-	"github.com/aogallo/go-server/models"
-	"github.com/aogallo/go-server/routes"
+	"github.com/aogallo/go-server/internal/db"
+	"github.com/aogallo/go-server/internal/models"
+	"github.com/aogallo/go-server/internal/routes"
 )
 
-var db = make(map[string]string)
-
 func main() {
-	database := config.ConnectDB(".env")
-	defer config.DisconnectDB(database)
+	database := db.ConnectDB(".env")
+	defer db.DisconnectDB(database)
 
 	// Migrate the schemas
 	database.AutoMigrate(&models.User{}, &models.Rol{})

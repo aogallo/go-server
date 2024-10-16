@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/aogallo/go-server/models"
+	"github.com/aogallo/go-server/internal/models"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
