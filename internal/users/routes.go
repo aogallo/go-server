@@ -1,7 +1,6 @@
-package routes
+package users
 
 import (
-	"github.com/aogallo/go-server/internal/controllers"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
