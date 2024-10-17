@@ -23,10 +23,10 @@ func (uc *UserController) GetUsers(c *gin.Context) {
 	// if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
 	// if err := uc.DB.Preload("Roles").Find(&users).Error; err != nil {
 
-	if err := uc.DB.Model(&models.User{}).Preload("Roles", func(db *gorm.DB) *gorm.DB {
-		print("users")
-		return db.Select("id", "name")
-	}).Find(&users).Error; err != nil {
+	// var products []Product
+	// db.Where("name = ?", "product1").Or("name = ?", "product2").Preload("Images", "photo is not null").Select("images.photo").Find(&products)
+
+	if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retriving users"})
 		return
 	}
@@ -87,9 +87,7 @@ func (uc *UserController) GetUserById(context *gin.Context) {
 
 func getUserById(id string, uc *UserController) (models.User, error) {
 	var user models.User
-	result := uc.DB.Model(&models.User{}).Preload("Roles", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id", "name")
-	}).First(&user, id)
+	result := uc.DB.Model(&models.User{}).Preload("Roles").Select("id,name").First(&user, id)
 
 	return user, result.Error
 }

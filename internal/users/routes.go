@@ -6,7 +6,7 @@ import (
 )
 
 func SetupUserRoutes(r *gin.RouterGroup, db *gorm.DB) {
-	userController := controllers.NewUserController(db)
+	userController := NewUserController(db)
 
 	// Get user value
 	r.GET("/users", userController.GetUsers)

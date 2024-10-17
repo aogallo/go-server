@@ -24,7 +24,7 @@ type UserResponse struct {
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	Roles     []Rol     `json:"roles" `
+	Roles     []RolAPI  `json:"roles" `
 }
 
 type UserUpdate struct {
@@ -40,6 +40,14 @@ func (uc *User) ToResponse() UserResponse {
 		FirstName: uc.FirstName,
 		LastName:  uc.LastName,
 		Email:     uc.Email,
-		Roles:     uc.Roles,
+		Roles:     convertRoles(uc.Roles),
 	}
+}
+
+func convertRoles(roles []Rol) []RolAPI {
+	rolesApi := make([]RolAPI, len(roles))
+	for i, role := range roles {
+		rolesApi[i] = role.mapRolToApi()
+	}
+	return rolesApi
 }

@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Rol struct {
 	ID        uint      `json:"id"`
@@ -15,4 +17,16 @@ type Tabler interface {
 
 func (Rol) TableName() string {
 	return "roles"
+}
+
+type RolAPI struct {
+	ID   uint
+	Name string
+}
+
+func (rol *Rol) mapRolToApi() RolAPI {
+	return RolAPI{
+		ID:   rol.ID,
+		Name: rol.Name,
+	}
 }
