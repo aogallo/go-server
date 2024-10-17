@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/aogallo/go-server/internal/models"
@@ -20,16 +21,12 @@ func NewUserController(db *gorm.DB) *UserController {
 func (uc *UserController) GetUsers(c *gin.Context) {
 	var users []models.User
 
-	// if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
-	// if err := uc.DB.Preload("Roles").Find(&users).Error; err != nil {
-
-	// var products []Product
-	// db.Where("name = ?", "product1").Or("name = ?", "product2").Preload("Images", "photo is not null").Select("images.photo").Find(&products)
-
 	if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retriving users"})
 		return
 	}
+
+	fmt.Printf("usuarios %v", users)
 
 	responses := make([]models.UserResponse, len(users))
 	for i, user := range users {

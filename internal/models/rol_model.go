@@ -20,8 +20,8 @@ func (Rol) TableName() string {
 }
 
 type RolAPI struct {
-	ID   uint
-	Name string
+	ID   uint   `json:"id"`
+	Name string `json:"name"`
 }
 
 func (rol *Rol) mapRolToApi() RolAPI {

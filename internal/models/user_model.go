@@ -40,6 +40,8 @@ func (uc *User) ToResponse() UserResponse {
 		FirstName: uc.FirstName,
 		LastName:  uc.LastName,
 		Email:     uc.Email,
+		CreatedAt: uc.CreatedAt,
+		UpdatedAt: uc.UpdatedAt,
 		Roles:     convertRoles(uc.Roles),
 	}
 }
