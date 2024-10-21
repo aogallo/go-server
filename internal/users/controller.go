@@ -14,7 +14,7 @@ type UserController struct {
 	DB *gorm.DB
 }
 
-func NewUserController(db *gorm.DB) *UserController {
+func newUserController(db *gorm.DB) *UserController {
 	return &UserController{DB: db}
 }
 
@@ -115,10 +115,10 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 		return
 	}
 
-	userDB, error := getUserById(id, uc)
+	userDB, result := getUserById(id, uc)
 
-	if error != nil {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
+	if result.Error != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": result.Error.Error()})
 		return
 	}
 

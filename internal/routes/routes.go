@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/aogallo/go-server/internal/roles"
 	"github.com/aogallo/go-server/internal/users"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -24,7 +25,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	users.SetupUserRoutes(apiV1, db)
 
 	// Rol Routes
-	SetupRolRoutes(apiV1, db)
+	roles.SetupRolRoutes(apiV1, db)
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:

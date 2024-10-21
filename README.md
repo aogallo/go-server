@@ -27,6 +27,7 @@ Make sure Go and Postgresql are installed.
 
 - Golang: [Download Golang](https://go.dev/doc/install)
 - Postgresql: [Download Postgresql](https://www.postgresql.org/download/)
+- Air: [Air Docs](https://github.com/air-verse/air?tab=readme-ov-file#cloud-air---live-reload-for-go-apps)
 
 ### Environment Variables
 
@@ -50,10 +51,10 @@ Go to the project directory
 cd go-server
 ```
 
-Start the server
+Start the server in the development environment
 
 ```bash
-go run .
+air
 ```
 
 ### Running Tests
