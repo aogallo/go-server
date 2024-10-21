@@ -6,7 +6,7 @@ import (
 
 type Rol struct {
 	ID        uint      `json:"id"`
-	Name      string    `json:"name" form:"name" binding:"required"`
+	Name      string    `json:"name" form:"name" binding:"required" gorm:"unique"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }

@@ -84,7 +84,7 @@ func (uc *UserController) GetUserById(context *gin.Context) {
 
 func getUserById(id string, uc *UserController) (models.User, error) {
 	var user models.User
-	result := uc.DB.Model(&models.User{}).Preload("Roles").Select("id,name").First(&user, id)
+	result := uc.DB.Model(&models.User{}).Preload("Roles").First(&user, id)
 
 	return user, result.Error
 }
@@ -127,4 +127,28 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 	}
 
 	context.IndentedJSON(http.StatusOK, gin.H{"success": true, "data": ""})
+}
+
+func (uc *UserController) DeleteUser(context *gin.Context) {
+	id := context.Param("id")
+
+	if id == "" {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "User validation failed!", "error": "The ID is not valided", "success": false})
+		return
+	}
+
+	_, error := getUserById(id, uc)
+
+	if error != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
+		return
+	}
+
+	if error := uc.DB.Select("Roles").Delete(&models.User{}, id).Error; error != nil {
+		context.IndentedJSON(http.StatusInternalServerError, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
+		return
+
+	}
+
+	context.BindJSON(http.StatusNoContent)
 }

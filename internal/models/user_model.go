@@ -13,7 +13,7 @@ type User struct {
 	Email     string    `json:"email" binding:"required" gorm:"unique"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	Roles     []Rol     `json:"roles" gorm:"many2many:user_roles;"`
+	Roles     []Rol     `json:"roles" gorm:"many2many:user_roles;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type UserResponse struct {
