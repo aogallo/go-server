@@ -1,4 +1,4 @@
-package controllers
+package roles
 
 import (
 	"net/http"
@@ -15,7 +15,7 @@ type RolController struct {
 
 var validate *validator.Validate
 
-func NewRolController(db *gorm.DB) *RolController {
+func newRolController(db *gorm.DB) *RolController {
 	return &RolController{DB: db}
 }
 

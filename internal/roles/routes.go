@@ -1,13 +1,12 @@
-package routes
+package roles
 
 import (
-	"github.com/aogallo/go-server/internal/controllers"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 func SetupRolRoutes(r *gin.RouterGroup, db *gorm.DB) {
-	rolController := controllers.NewRolController(db)
+	rolController := newRolController(db)
 
 	r.GET("/roles", rolController.GetRoles)
 	r.GET("/roles/:id", rolController.GetRolById)
