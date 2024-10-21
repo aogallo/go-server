@@ -2,6 +2,8 @@ package models
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type User struct {
@@ -52,4 +54,25 @@ func convertRoles(roles []Rol) []RolAPI {
 		rolesApi[i] = role.mapRolToApi()
 	}
 	return rolesApi
+}
+
+func (user *UserUpdate) BeforeUpdate(tx *gorm.DB) (err error) {
+	if tx.Statement.Changed("FirstName") {
+		tx.Statement.SetColumn("FirstName", user.FirstName)
+	}
+
+	if tx.Statement.Changed("LastName") {
+		println("last name")
+		tx.Statement.SetColumn("LastName", user.LastName)
+	}
+
+	if tx.Statement.Changed("Email") {
+		tx.Statement.SetColumn("Email", user.Email)
+	}
+
+	if tx.Statement.Changed("Roles") {
+		tx.Statement.SetColumn("Roles", user.Roles)
+	}
+
+	return nil
 }

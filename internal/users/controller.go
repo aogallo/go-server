@@ -61,6 +61,13 @@ func (uc *UserController) CreateUser(context *gin.Context) {
 		return
 	}
 
+	result = uc.DB.Save(&user)
+
+	if result.Error != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "User validation falied!", "error": result.Error.Error()})
+		return
+	}
+
 	context.JSON(http.StatusOK, gin.H{"success": true})
 }
 
@@ -72,21 +79,26 @@ func (uc *UserController) GetUserById(context *gin.Context) {
 		return
 	}
 
-	user, error := getUserById(id, uc)
+	user, result := getUserById(id, uc)
 
-	if error != nil {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
+	if result.Error != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": result.Error.Error()})
+		return
+	}
+
+	if result.RowsAffected == 0 {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": "User Not Found"})
 		return
 	}
 
 	context.JSON(http.StatusOK, gin.H{"success": true, "data": user.ToResponse()})
 }
 
-func getUserById(id string, uc *UserController) (models.User, error) {
+func getUserById(id string, uc *UserController) (models.User, *gorm.DB) {
 	var user models.User
 	result := uc.DB.Model(&models.User{}).Preload("Roles").First(&user, id)
 
-	return user, result.Error
+	return user, result
 }
 
 func (uc *UserController) UpdateUser(context *gin.Context) {
@@ -110,7 +122,7 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 		return
 	}
 
-	updatedResult := uc.DB.Save(&models.User{
+	updatedResult := uc.DB.Model(&userDB).Updates(&models.User{
 		ID:        userDB.ID,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
@@ -137,18 +149,23 @@ func (uc *UserController) DeleteUser(context *gin.Context) {
 		return
 	}
 
-	_, error := getUserById(id, uc)
+	userDB, result := getUserById(id, uc)
 
-	if error != nil {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
+	if result.Error != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": result.Error.Error()})
 		return
 	}
 
-	if error := uc.DB.Select("Roles").Delete(&models.User{}, id).Error; error != nil {
+	if result.RowsAffected == 0 {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"success": false, "message": "User validation failed!", "error": "User Not Found"})
+		return
+	}
+
+	if error := uc.DB.Select("Roles").Delete(&userDB).Error; error != nil {
 		context.IndentedJSON(http.StatusInternalServerError, gin.H{"success": false, "message": "User validation failed!", "error": error.Error()})
 		return
 
 	}
 
-	context.BindJSON(http.StatusNoContent)
+	context.IndentedJSON(http.StatusNoContent, gin.H{})
 }
