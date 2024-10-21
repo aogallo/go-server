@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/aogallo/go-server/internal/users"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -20,7 +21,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	apiV1 := r.Group("/api/v1")
 
 	// User Routes
-	SetupUserRoutes(apiV1, db)
+	users.SetupUserRoutes(apiV1, db)
 
 	// Rol Routes
 	SetupRolRoutes(apiV1, db)
