@@ -9,9 +9,9 @@ import (
 func SetupRolRoutes(r *gin.RouterGroup, db *gorm.DB) {
 	rolController := controllers.NewRolController(db)
 
-	r.GET("/rol", rolController.GetRoles)
-	r.GET("/rol/:id", rolController.GetRolById)
-	r.POST("/rol", rolController.CreateRol)
-	r.DELETE("/rol/:id", rolController.DeleteRol)
-	r.PUT("/rol/:id", rolController.UpdateRol)
+	r.GET("/roles", rolController.GetRoles)
+	r.GET("/roles/:id", rolController.GetRolById)
+	r.POST("/roles", rolController.CreateRol)
+	r.DELETE("/roles/:id", rolController.DeleteRol)
+	r.PUT("/roles/:id", rolController.UpdateRol)
 }
