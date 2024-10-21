@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+"firstName": "test",
+"lastName": "qa",
+"password": "1234",
+"username": "testerqa",
+"email": "testerqa@mail.com",
+"roles": [{"id": 11,"name": "manager"}]
+}
