@@ -54,7 +54,7 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 	id := c.Param("id")
 
 	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Rol validation failed!", "error": "The ID is not valided", "success": false})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Role validation failed!", "error": "The ID is not valided", "success": false})
 		return
 	}
 
@@ -63,7 +63,7 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 	result := rc.DB.First(&rolDb, id)
 
 	if result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Rol validation failed!", "error": "The Rol does not exist", "success": false})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Role validation failed!", "error": "The Rol does not exist", "success": false})
 		return
 	}
 
@@ -84,26 +84,26 @@ func (rc *RolController) UpdateRol(c *gin.Context) {
 	id := c.Param("id")
 
 	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Rol validation failed!", "error": "The ID is not valided", "success": false})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Role validation failed!", "error": "The ID is not valided", "success": false})
 		return
 	}
 
 	if err := c.ShouldBindJSON(&rol); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Rol validation failed!", "error": err.Error(), "success": false})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Role validation failed!", "error": err.Error(), "success": false})
 		return
 	}
 
 	result := rc.DB.First(&rolDb, id)
 
 	if result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Rol validation failed!", "error": "The Rol does not exist", "success": false})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Role validation failed!", "error": "The Rol does not exist", "success": false})
 		return
 	}
 
 	updatedResult := rc.DB.Model(&rolDb).Update("name", rol.Name)
 
 	if updatedResult.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Rol validation failed!", "error": "The Rol can not be updated", "success": false})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Role validation failed!", "error": "The Rol can not be updated", "success": false})
 		return
 	}
 
@@ -115,14 +115,14 @@ func (rc *RolController) GetRolById(c *gin.Context) {
 	id := c.Param("id")
 
 	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Rol validation failed!", "error": "The ID is not valided", "success": false})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Role validation failed!", "error": "The ID is not valided", "success": false})
 		return
 	}
 
 	result := rc.DB.First(&rol, id)
 
 	if result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Rol validation failed!", "error": "The Rol does not exist", "success": false})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Role validation failed!", "error": "The Rol does not exist", "success": false})
 		return
 	}
 
