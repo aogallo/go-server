@@ -11,7 +11,7 @@ func main() {
 	defer db.DisconnectDB(database)
 
 	// Migrate the schemas
-	database.AutoMigrate(&models.User{}, &models.Rol{})
+	database.AutoMigrate(&models.User{}, &models.Role{})
 
 	r := routes.SetupRouter(database)
 

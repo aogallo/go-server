@@ -20,7 +20,7 @@ func newRolController(db *gorm.DB) *RolController {
 }
 
 func (rc *RolController) GetRoles(c *gin.Context) {
-	var roles []models.Rol
+	var roles []models.Role
 
 	result := rc.DB.Find(&roles)
 
@@ -33,7 +33,7 @@ func (rc *RolController) GetRoles(c *gin.Context) {
 }
 
 func (rc *RolController) CreateRol(c *gin.Context) {
-	var rol models.Rol
+	var rol models.Role
 
 	if err := c.ShouldBindJSON(&rol); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Rol validation failed!", "error": err.Error(), "success": false})
@@ -58,7 +58,7 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 		return
 	}
 
-	var rolDb models.Rol
+	var rolDb models.Role
 
 	result := rc.DB.First(&rolDb, id)
 
@@ -67,7 +67,7 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 		return
 	}
 
-	result = rc.DB.Delete(&models.Rol{}, id)
+	result = rc.DB.Delete(&models.Role{}, id)
 
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "The rol could not be deleted", "error": "", "success": false})
@@ -78,8 +78,8 @@ func (rc *RolController) DeleteRol(c *gin.Context) {
 }
 
 func (rc *RolController) UpdateRol(c *gin.Context) {
-	var rol models.Rol
-	var rolDb models.Rol
+	var rol models.Role
+	var rolDb models.Role
 
 	id := c.Param("id")
 
@@ -111,7 +111,7 @@ func (rc *RolController) UpdateRol(c *gin.Context) {
 }
 
 func (rc *RolController) GetRolById(c *gin.Context) {
-	var rol models.Rol
+	var rol models.Role
 	id := c.Param("id")
 
 	if id == "" {

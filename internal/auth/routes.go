@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupUserRoutes(r *gin.RouterGroup, db *gorm.DB) {
+func SetupAuthRoutes(r *gin.RouterGroup, db *gorm.DB) {
 	authController := newAuthController(db)
 
 	// Get user value

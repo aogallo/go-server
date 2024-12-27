@@ -25,7 +25,7 @@ func ConnectDB(path string) *gorm.DB {
 	db, error := gorm.Open(postgres.Open(DATABASE_URL), &gorm.Config{})
 
 	if error != nil {
-		panic("Failed to connect mysql database")
+		panic("Failed to connect database")
 	}
 
 	return db
