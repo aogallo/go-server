@@ -18,10 +18,6 @@ func ConnectDB(path string) *gorm.DB {
 
 	DATABASE_URL := os.Getenv("DATABASE_URL")
 
-	// dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=true&loc=Local", dbUser, dbPass, dbHost, dbName)
-
-	// dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=9920 sslmode=disable TimeZone=Asia/Shanghai", dbHost, dbUser, dbPass, dbName)
-
 	db, error := gorm.Open(postgres.Open(DATABASE_URL), &gorm.Config{})
 
 	if error != nil {
