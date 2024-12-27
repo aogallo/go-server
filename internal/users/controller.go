@@ -75,7 +75,7 @@ func (uc *UserController) GetUserById(context *gin.Context) {
 	id := context.Param("id")
 
 	if id == "" {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "User validation failed!", "error": "The ID is not valided", "success": false})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "User validation failed!", "error": "The ID is not validated", "success": false})
 		return
 	}
 

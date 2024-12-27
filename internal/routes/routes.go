@@ -29,8 +29,8 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	// User Routes
 	users.SetupUserRoutes(apiV1, db)
 
-	// Rol Routes
-	roles.SetupRolRoutes(apiV1, db)
+	// Role Routes
+	roles.SetupRoleRoutes(apiV1, db)
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:
