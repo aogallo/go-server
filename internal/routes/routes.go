@@ -1,9 +1,8 @@
 package routes
 
 import (
-	"net/http"
-
 	"github.com/aogallo/go-server/internal/auth"
+	"github.com/aogallo/go-server/internal/middleware"
 	"github.com/aogallo/go-server/internal/roles"
 	"github.com/aogallo/go-server/internal/users"
 	"github.com/gin-gonic/gin"
@@ -15,15 +14,14 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	// gin.DisableConsoleColor()
 	r := gin.Default()
 
-	// Ping test
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(http.StatusOK, "pong")
-	})
+	publicRoute := r.Group("/api/v1")
+
+	// Auth Routes
+	auth.SetupAuthRoutes(publicRoute, db)
 
 	apiV1 := r.Group("/api/v1")
 
-	// Auth Routes
-	auth.SetupAuthRoutes(apiV1, db)
+	apiV1.Use(middleware.AuthenticationMiddleware())
 
 	// User Routes
 	users.SetupUserRoutes(apiV1, db)

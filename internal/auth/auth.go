@@ -1,8 +1,11 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/aogallo/go-server/internal/models"
+	"github.com/aogallo/go-server/internal/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -26,7 +29,23 @@ func (auth *AuthController) Login(context *gin.Context) {
 	error := context.ShouldBindJSON(login)
 
 	if error != nil {
-		context.IndentedJSON(http.StatusBadRequest, gin.H{"success": false, "message": "Login validation failed!", "error": error.Error()})
+		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("Login validation failed!. %s", error.Error()))
 	}
 
+	var user models.User
+
+	result := auth.DB.Model(&models.User{}).Preload("Roles").First(&user, login.Username)
+
+	if result.Error != nil {
+		utils.ErrorResponse(context, http.StatusBadRequest, "Invalid credentials")
+	}
+
+	token, error := utils.GenerateToken(user)
+
+	if error != nil {
+		utils.ErrorResponse(context, http.StatusInternalServerError, "Internal Server Error")
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"token": token})
 }
