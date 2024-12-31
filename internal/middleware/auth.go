@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -19,7 +20,10 @@ func AuthenticationMiddleware() gin.HandlerFunc {
 
 		tokenWithBear := strings.Split(tokenString, " ")
 
+		fmt.Printf("%s", tokenWithBear)
+
 		if len(tokenWithBear) != 2 || tokenWithBear[0] != "Bearer" {
+			println("pass 1")
 			utils.ErrorResponse(ctx, http.StatusUnauthorized, "Invalid authentication token")
 			ctx.Abort()
 			return
@@ -27,15 +31,15 @@ func AuthenticationMiddleware() gin.HandlerFunc {
 
 		tokenString = tokenWithBear[1]
 
-		claims, error := utils.VerifyToken(tokenString)
+		user, error := utils.VerifyToken(tokenString)
 
 		if error != nil {
-			utils.ErrorResponse(ctx, http.StatusUnauthorized, "Invalid authentication token")
+			utils.ErrorResponse(ctx, http.StatusUnauthorized, fmt.Sprintf("Invalid authentication token. %s", error.Error()))
 			ctx.Abort()
 			return
 		}
 
-		ctx.Set("user_id", claims.UserId)
+		ctx.Set("user_id", user.UserId)
 		ctx.Next()
 
 	}
