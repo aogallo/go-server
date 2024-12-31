@@ -20,13 +20,13 @@ func (Role) TableName() string {
 	return "roles"
 }
 
-type RolAPI struct {
+type RoleResponse struct {
 	ID   uint   `json:"id"`
 	Name string `json:"name"`
 }
 
-func (rol *Role) mapRolToApi() RolAPI {
-	return RolAPI{
+func (rol *Role) mapRolToApi() RoleResponse {
+	return RoleResponse{
 		ID:   rol.ID,
 		Name: rol.Name,
 	}

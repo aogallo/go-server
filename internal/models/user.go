@@ -21,14 +21,14 @@ type User struct {
 
 // UserResponse - stripped down user data for API responses
 type UserResponse struct {
-	ID        uint      `json:"id"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
-	Username  string    `json:"username"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	Roles     []RolAPI  `json:"roles" `
+	ID        uint           `json:"id"`
+	FirstName string         `json:"firstName"`
+	LastName  string         `json:"lastName"`
+	Username  string         `json:"username"`
+	Email     string         `json:"email"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	Roles     []RoleResponse `json:"roles" `
 }
 
 type UserUpdate struct {
@@ -58,8 +58,8 @@ func (uc *User) ToResponse() UserResponse {
 	}
 }
 
-func convertRoles(roles []Role) []RolAPI {
-	rolesApi := make([]RolAPI, len(roles))
+func convertRoles(roles []Role) []RoleResponse {
+	rolesApi := make([]RoleResponse, len(roles))
 	for i, role := range roles {
 		rolesApi[i] = role.mapRolToApi()
 	}
