@@ -1,6 +1,7 @@
 package product
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/aogallo/go-server/internal/models"
@@ -28,4 +29,24 @@ func (pc *ProductController) GetProducts(context *gin.Context) {
 	}
 
 	utils.SuccessResponse(context, http.StatusOK, products)
+}
+
+func (pc *ProductController) CreateProduct(context *gin.Context) {
+	var product models.Product
+
+	err := context.ShouldBindJSON(&product)
+
+	if err != nil {
+		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("Validation failed!. %s", err.Error()))
+		return
+	}
+
+	result := pc.DB.Create(&product)
+
+	if result.Error != nil {
+		utils.ErrorResponse(context, http.StatusBadRequest, result.Error.Error())
+		return
+	}
+
+	utils.SuccessResponse(context, http.StatusOK, product.ConvertToResponse())
 }

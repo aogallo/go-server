@@ -9,4 +9,5 @@ func SetupProductRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	productController := newProductController(db)
 
 	router.GET("/products", productController.GetProducts)
+	router.POST("/products", productController.CreateProduct)
 }

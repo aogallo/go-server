@@ -60,13 +60,6 @@ func (uc *UserController) CreateUser(context *gin.Context) {
 		return
 	}
 
-	result = uc.DB.Save(&user)
-
-	if result.Error != nil {
-		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
-		return
-	}
-
 	utils.SimpleSuccessResponse(context, http.StatusOK)
 }
 

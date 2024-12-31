@@ -20,8 +20,6 @@ func AuthenticationMiddleware() gin.HandlerFunc {
 
 		tokenWithBear := strings.Split(tokenString, " ")
 
-		fmt.Printf("%s", tokenWithBear)
-
 		if len(tokenWithBear) != 2 || tokenWithBear[0] != "Bearer" {
 			utils.ErrorResponse(ctx, http.StatusUnauthorized, "Invalid authentication token")
 			ctx.Abort()
