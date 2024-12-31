@@ -39,7 +39,7 @@ func AuthenticationMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		ctx.Set("user_id", user.UserId)
+		ctx.Set("user_id", user.ID)
 		ctx.Next()
 
 	}

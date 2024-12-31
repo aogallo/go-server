@@ -25,7 +25,7 @@ func GenerateToken(payload models.User) (string, error) {
 
 	jwtKey := []byte(JWT_SECRET)
 
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(24 * time.Hour)
 
 	claims := &CustomClaims{
 		UserId:   payload.ID,
@@ -59,25 +59,18 @@ func VerifyToken(tokenString string) (models.UserResponse, error) {
 	})
 
 	if error != nil {
-		return models.UserResponse{}, error
+		return models.UserResponse{}, errors.New(error.Error())
+	} else if claims, ok := token.Claims.(*CustomClaims); ok {
+
+		fmt.Println(&claims.Username, &claims.UserId)
+
+		return models.UserResponse{
+			ID:       claims.UserId,
+			Username: claims.Username,
+		}, nil
+	} else {
+		return models.UserResponse{}, errors.New("Invalid credentials")
 	}
-
-	claims, ok := token.Claims.(*CustomClaims)
-
-	// fmt.Printf("%s" )
-
-	if !ok {
-		return models.UserResponse{}, errors.New("Invalid claims")
-	}
-
-	if !token.Valid {
-		return models.UserResponse{}, errors.New("Invalid token")
-	}
-
-	return models.UserResponse{
-		ID:       claims.UserId,
-		Username: claims.Username,
-	}, nil
 }
 
 func getJWT() []byte {
