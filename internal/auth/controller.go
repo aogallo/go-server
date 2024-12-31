@@ -49,5 +49,5 @@ func (auth *AuthController) Login(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"token": token})
+	context.JSON(http.StatusOK, gin.H{"token": token, "userId": user.ID, "user": user.Username})
 }
