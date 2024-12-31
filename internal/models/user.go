@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// User domain model - represents the database entity
 type User struct {
 	ID        uint      `json:"id"`
 	FirstName string    `json:"firstName" binding:"required"`
@@ -15,9 +16,10 @@ type User struct {
 	Email     string    `json:"email" binding:"required" gorm:"unique"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	Roles     []Rol     `json:"roles" gorm:"many2many:user_roles;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Roles     []Role    `json:"roles" gorm:"many2many:user_roles"`
 }
 
+// UserResponse - stripped down user data for API responses
 type UserResponse struct {
 	ID        uint      `json:"id"`
 	FirstName string    `json:"firstName"`
@@ -33,7 +35,15 @@ type UserUpdate struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
-	Roles     []Rol  `json:"roles" `
+	Roles     []Role `json:"roles" `
+}
+
+// UserRole is the join table
+type UserRole struct {
+	UserID    uint `gorm:"primaryKey"`
+	RoleID    uint `gorm:"primaryKey"`
+	CreatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 func (uc *User) ToResponse() UserResponse {
@@ -48,7 +58,7 @@ func (uc *User) ToResponse() UserResponse {
 	}
 }
 
-func convertRoles(roles []Rol) []RolAPI {
+func convertRoles(roles []Role) []RolAPI {
 	rolesApi := make([]RolAPI, len(roles))
 	for i, role := range roles {
 		rolesApi[i] = role.mapRolToApi()
