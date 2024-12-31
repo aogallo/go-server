@@ -14,20 +14,22 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	// gin.DisableConsoleColor()
 	r := gin.Default()
 
-	publicRoute := r.Group("/api/v1")
+	var endpoint = "/api/v1"
+
+	publicRoutes := r.Group(endpoint)
 
 	// Auth Routes
-	auth.SetupAuthRoutes(publicRoute, db)
+	auth.SetupAuthRoutes(publicRoutes, db)
 
-	apiV1 := r.Group("/api/v1")
+	protectedRoutes := r.Group(endpoint)
 
-	apiV1.Use(middleware.AuthenticationMiddleware())
+	protectedRoutes.Use(middleware.AuthenticationMiddleware())
 
 	// User Routes
-	users.SetupUserRoutes(apiV1, db)
+	users.SetupUserRoutes(protectedRoutes, db)
 
 	// Role Routes
-	roles.SetupRoleRoutes(apiV1, db)
+	roles.SetupRoleRoutes(protectedRoutes, db)
 
 	return r
 }

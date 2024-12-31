@@ -26,18 +26,20 @@ func newAuthController(db *gorm.DB) *AuthController {
 func (auth *AuthController) Login(context *gin.Context) {
 	var login Login
 
-	error := context.ShouldBindJSON(login)
+	error := context.ShouldBindJSON(&login)
 
 	if error != nil {
 		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("Login validation failed!. %s", error.Error()))
+		return
 	}
 
 	var user models.User
 
-	result := auth.DB.Model(&models.User{}).Preload("Roles").First(&user, login.Username)
+	result := auth.DB.Model(&models.User{}).Preload("Roles").Where("username = ?", login.Username).First(&user)
 
 	if result.Error != nil {
 		utils.ErrorResponse(context, http.StatusBadRequest, "Invalid credentials")
+		return
 	}
 
 	token, error := utils.GenerateToken(user)
