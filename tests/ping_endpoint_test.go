@@ -6,18 +6,16 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/aogallo/go-server/config"
-	"github.com/aogallo/go-server/routes"
+	"github.com/aogallo/go-server/internal/db"
+	"github.com/aogallo/go-server/internal/routes"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var db = make(map[string]string)
-
 func TestPingRoute(t *testing.T) {
 	path := filepath.Join("../", ".env.test")
-	database := config.ConnectDB(path)
-	defer config.DisconnectDB(database)
+	database := db.ConnectDB(path)
+	defer db.DisconnectDB(database)
 
 	router := routes.SetupRouter(database)
 

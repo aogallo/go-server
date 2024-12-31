@@ -2,5 +2,5 @@ POST http://localhost:8080/api/v1/roles
 Content-Type: application/json
 
 {
-"name": "main"
+"name": "tester"
 }
