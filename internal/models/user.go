@@ -32,10 +32,10 @@ type UserResponse struct {
 }
 
 type UserToUpdate struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-	Roles     []Role `json:"roles" `
+	FirstName string   `json:"firstName"`
+	LastName  string   `json:"lastName"`
+	Email     string   `json:"email"`
+	Roles     []string `json:"roles" `
 }
 
 // UserRole is the join table

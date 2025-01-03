@@ -120,7 +120,7 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 	userDB, result := getUserById(id, uc)
 
 	if result.Error != nil {
-		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
+		utils.ErrorResponse(context, http.StatusNotFound, "User Not Found!")
 		context.Abort()
 		return
 	}
@@ -130,8 +130,19 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Email:     user.Email,
-		Roles:     user.Roles,
 	})
+
+	if user.Roles != nil {
+		var roles []models.Role
+
+		result := uc.DB.Where("name IN ? ", user.Roles).Find(&roles)
+
+		fmt.Printf("Roles: %+v\n %+v", &roles, result)
+
+		for _, role := range roles {
+			uc.DB.Model(&userDB).Association("Roles").Append(&role)
+		}
+	}
 
 	if updatedResult.Error != nil {
 		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", updatedResult.Error.Error()))
