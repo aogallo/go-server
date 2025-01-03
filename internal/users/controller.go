@@ -135,9 +135,7 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 	if user.Roles != nil {
 		var roles []models.Role
 
-		result := uc.DB.Where("name IN ? ", user.Roles).Find(&roles)
-
-		fmt.Printf("Roles: %+v\n %+v", &roles, result)
+		uc.DB.Where("name IN ? ", user.Roles).Find(&roles)
 
 		for _, role := range roles {
 			uc.DB.Model(&userDB).Association("Roles").Append(&role)
