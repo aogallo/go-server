@@ -72,3 +72,7 @@ We're using swagger to generate the documentation, so to update the documentatio
 ```bash
 swag init -g ./cmd/api-server/main.go
 ```
+
+You can view the documentation at:
+
+[Documentation](http://localthos:8080/swagger/index.html)
