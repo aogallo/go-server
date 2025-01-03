@@ -41,7 +41,6 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	// Product Routes
 	product.SetupProductRoutes(protectedRoutes, db)
 
-	// url := ginSwagger.URL("http://localhost:8080/swagger/swagger.json")
 	publicRoutes.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
