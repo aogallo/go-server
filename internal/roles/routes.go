@@ -5,12 +5,12 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupRoleRoutes(r *gin.RouterGroup, db *gorm.DB) {
-	rolController := newRolController(db)
+func SetupRoleRoutes(router *gin.RouterGroup, db *gorm.DB) {
+	roleController := newRoleController(db)
 
-	r.GET("/roles", rolController.GetRoles)
-	r.GET("/roles/:id", rolController.GetRoleById)
-	r.POST("/roles", rolController.CreateRole)
-	r.DELETE("/roles/:id", rolController.DeleteRole)
-	r.PUT("/roles/:id", rolController.UpdateRole)
+	router.GET("/roles", roleController.GetRoles)
+	router.GET("/roles/:id", roleController.GetRoleById)
+	router.POST("/roles", roleController.CreateRole)
+	router.DELETE("/roles/:id", roleController.DeleteRole)
+	router.PUT("/roles/:id", roleController.UpdateRole)
 }

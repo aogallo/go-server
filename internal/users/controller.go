@@ -18,11 +18,12 @@ func newUserController(db *gorm.DB) *UserController {
 	return &UserController{DB: db}
 }
 
-func (uc *UserController) GetUsers(c *gin.Context) {
+func (uc *UserController) GetUsers(context *gin.Context) {
 	var users []models.User
 
 	if err := uc.DB.Model(&models.User{}).Preload("Roles").Find(&users).Error; err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Error to retrieve users")
+		utils.ErrorResponse(context, http.StatusInternalServerError, "Error to retrieve users")
+		context.Abort()
 		return
 	}
 
@@ -32,7 +33,7 @@ func (uc *UserController) GetUsers(c *gin.Context) {
 		responses[i] = user.ToResponse()
 	}
 
-	utils.SuccessResponse(c, http.StatusOK, responses)
+	utils.SuccessResponse(context, http.StatusOK, responses)
 }
 
 func (uc *UserController) CreateUser(context *gin.Context) {
@@ -42,6 +43,7 @@ func (uc *UserController) CreateUser(context *gin.Context) {
 
 	if error != nil {
 		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("User validation failed!. %s", error.Error()))
+		context.Abort()
 		return
 	}
 
@@ -49,6 +51,7 @@ func (uc *UserController) CreateUser(context *gin.Context) {
 
 	if error != nil {
 		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("User validation failed!. %s", error.Error()))
+		context.Abort()
 		return
 	}
 
@@ -57,13 +60,7 @@ func (uc *UserController) CreateUser(context *gin.Context) {
 
 	if result.Error != nil {
 		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
-		return
-	}
-
-	result = uc.DB.Save(&user)
-
-	if result.Error != nil {
-		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
+		context.Abort()
 		return
 	}
 
@@ -75,6 +72,7 @@ func (uc *UserController) GetUserById(context *gin.Context) {
 
 	if id == "" {
 		utils.ErrorResponse(context, http.StatusBadRequest, "User validation failed!. The ID is not validated")
+		context.Abort()
 		return
 	}
 
@@ -82,11 +80,13 @@ func (uc *UserController) GetUserById(context *gin.Context) {
 
 	if result.Error != nil {
 		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
+		context.Abort()
 		return
 	}
 
 	if result.RowsAffected == 0 {
 		utils.ErrorResponse(context, http.StatusNotFound, "User validation failed!. User Not Found")
+		context.Abort()
 		return
 	}
 
@@ -102,16 +102,18 @@ func getUserById(id string, uc *UserController) (models.User, *gorm.DB) {
 }
 
 func (uc *UserController) UpdateUser(context *gin.Context) {
-	var user models.UserUpdate
+	var user models.UserToUpdate
 	id := context.Param("id")
 
 	if id == "" {
 		utils.ErrorResponse(context, http.StatusBadRequest, "User validation failed!. The ID is not validated")
+		context.Abort()
 		return
 	}
 
 	if err := context.ShouldBindJSON(&user); err != nil {
 		utils.ErrorResponse(context, http.StatusBadRequest, fmt.Sprintf("User validation failed!. %s", err.Error()))
+		context.Abort()
 		return
 	}
 
@@ -119,6 +121,7 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 
 	if result.Error != nil {
 		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
+		context.Abort()
 		return
 	}
 
@@ -132,6 +135,7 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 
 	if updatedResult.Error != nil {
 		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", updatedResult.Error.Error()))
+		context.Abort()
 		return
 	}
 
@@ -143,6 +147,7 @@ func (uc *UserController) DeleteUser(context *gin.Context) {
 
 	if id == "" {
 		utils.ErrorResponse(context, http.StatusBadRequest, "User validation failed!. The ID is not validated")
+		context.Abort()
 		return
 	}
 
@@ -150,16 +155,19 @@ func (uc *UserController) DeleteUser(context *gin.Context) {
 
 	if result.Error != nil {
 		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
+		context.Abort()
 		return
 	}
 
 	if result.RowsAffected == 0 {
 		utils.ErrorResponse(context, http.StatusNotFound, "User validation failed!. User Not Found")
+		context.Abort()
 		return
 	}
 
 	if error := uc.DB.Select("Roles").Delete(&userDB).Error; error != nil {
 		utils.ErrorResponse(context, http.StatusInternalServerError, fmt.Sprintf("User validation failed!. %s", error.Error()))
+		context.Abort()
 		return
 
 	}

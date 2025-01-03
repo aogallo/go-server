@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/aogallo/go-server/internal/auth"
 	"github.com/aogallo/go-server/internal/middleware"
+	"github.com/aogallo/go-server/internal/product"
 	"github.com/aogallo/go-server/internal/roles"
 	"github.com/aogallo/go-server/internal/users"
 	"github.com/gin-gonic/gin"
@@ -30,6 +31,9 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
 	// Role Routes
 	roles.SetupRoleRoutes(protectedRoutes, db)
+
+	// Product Routes
+	product.SetupProductRoutes(protectedRoutes, db)
 
 	return r
 }

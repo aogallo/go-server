@@ -21,17 +21,17 @@ type User struct {
 
 // UserResponse - stripped down user data for API responses
 type UserResponse struct {
-	ID        uint      `json:"id"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
-	Username  string    `json:"username"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	Roles     []RolAPI  `json:"roles" `
+	ID        uint           `json:"id"`
+	FirstName string         `json:"firstName"`
+	LastName  string         `json:"lastName"`
+	Username  string         `json:"username"`
+	Email     string         `json:"email"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	Roles     []RoleResponse `json:"roles" `
 }
 
-type UserUpdate struct {
+type UserToUpdate struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
@@ -58,21 +58,20 @@ func (uc *User) ToResponse() UserResponse {
 	}
 }
 
-func convertRoles(roles []Role) []RolAPI {
-	rolesApi := make([]RolAPI, len(roles))
+func convertRoles(roles []Role) []RoleResponse {
+	rolesApi := make([]RoleResponse, len(roles))
 	for i, role := range roles {
 		rolesApi[i] = role.mapRolToApi()
 	}
 	return rolesApi
 }
 
-func (user *UserUpdate) BeforeUpdate(tx *gorm.DB) (err error) {
+func (user *UserToUpdate) BeforeUpdate(tx *gorm.DB) (err error) {
 	if tx.Statement.Changed("FirstName") {
 		tx.Statement.SetColumn("FirstName", user.FirstName)
 	}
 
 	if tx.Statement.Changed("LastName") {
-		println("last name")
 		tx.Statement.SetColumn("LastName", user.LastName)
 	}
 
