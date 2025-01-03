@@ -108,3 +108,46 @@ func (pc *ProductController) DeleteProductById(context *gin.Context) {
 	utils.SimpleSuccessResponse(context, http.StatusNoContent)
 
 }
+
+func (pc *ProductController) UpdateProductById(context *gin.Context) {
+	var product models.ProductToUpdate
+	var productDB models.Product
+
+	id := context.Param("id")
+
+	if id == "" {
+		utils.ErrorResponse(context, http.StatusBadRequest, "")
+		context.Abort()
+		return
+	}
+
+	if error := context.ShouldBindJSON(&product); error != nil {
+		utils.ErrorResponse(context, http.StatusBadRequest, error.Error())
+		context.Abort()
+		return
+	}
+
+	result := pc.DB.First(&productDB, id)
+
+	if result.Error != nil {
+		utils.ErrorResponse(context, http.StatusNotFound, "Product Not Found")
+		context.Abort()
+		return
+	}
+
+	updatedResult := pc.DB.Model(&product).Updates(models.Product{
+		ID:          product.ID,
+		Name:        product.Name,
+		Description: product.Description,
+		Price:       product.Price,
+		Quantity:    product.Quantity,
+	})
+
+	if updatedResult.Error != nil {
+		utils.ErrorResponse(context, http.StatusNotFound, updatedResult.Error.Error())
+		context.Abort()
+		return
+	}
+
+	utils.SimpleSuccessResponse(context, http.StatusOK)
+}

@@ -25,6 +25,14 @@ type ProductResponse struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
+type ProductToUpdate struct {
+	ID          uint    `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	Quantity    int32   `json:"quantity"`
+}
+
 func (product *Product) ConvertToResponse() ProductResponse {
 	return ProductResponse{
 		ID:          product.ID,

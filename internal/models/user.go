@@ -31,7 +31,7 @@ type UserResponse struct {
 	Roles     []RoleResponse `json:"roles" `
 }
 
-type UserUpdate struct {
+type UserToUpdate struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
@@ -66,7 +66,7 @@ func convertRoles(roles []Role) []RoleResponse {
 	return rolesApi
 }
 
-func (user *UserUpdate) BeforeUpdate(tx *gorm.DB) (err error) {
+func (user *UserToUpdate) BeforeUpdate(tx *gorm.DB) (err error) {
 	if tx.Statement.Changed("FirstName") {
 		tx.Statement.SetColumn("FirstName", user.FirstName)
 	}

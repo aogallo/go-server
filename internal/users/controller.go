@@ -102,7 +102,7 @@ func getUserById(id string, uc *UserController) (models.User, *gorm.DB) {
 }
 
 func (uc *UserController) UpdateUser(context *gin.Context) {
-	var user models.UserUpdate
+	var user models.UserToUpdate
 	id := context.Param("id")
 
 	if id == "" {
