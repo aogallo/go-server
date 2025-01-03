@@ -72,7 +72,6 @@ func (user *UserToUpdate) BeforeUpdate(tx *gorm.DB) (err error) {
 	}
 
 	if tx.Statement.Changed("LastName") {
-		println("last name")
 		tx.Statement.SetColumn("LastName", user.LastName)
 	}
 

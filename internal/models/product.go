@@ -33,6 +33,26 @@ type ProductToUpdate struct {
 	Quantity    int32   `json:"quantity"`
 }
 
+func (product *ProductToUpdate) BeforeUpdate(tx *gorm.DB) (err error) {
+	if tx.Statement.Changed("Name") {
+		tx.Statement.SetColumn("Name", product.Name)
+	}
+
+	if tx.Statement.Changed("Price") {
+		tx.Statement.SetColumn("Price", product.Price)
+	}
+
+	if tx.Statement.Changed("Description") {
+		tx.Statement.SetColumn("Description", product.Description)
+	}
+
+	if tx.Statement.Changed("Quantity") {
+		tx.Statement.SetColumn("Quantity", product.Quantity)
+	}
+
+	return nil
+}
+
 func (product *Product) ConvertToResponse() ProductResponse {
 	return ProductResponse{
 		ID:          product.ID,

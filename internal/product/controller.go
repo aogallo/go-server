@@ -135,7 +135,7 @@ func (pc *ProductController) UpdateProductById(context *gin.Context) {
 		return
 	}
 
-	updatedResult := pc.DB.Model(&product).Updates(models.Product{
+	updatedResult := pc.DB.Model(&productDB).Updates(models.Product{
 		ID:          product.ID,
 		Name:        product.Name,
 		Description: product.Description,
