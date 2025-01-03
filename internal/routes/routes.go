@@ -1,6 +1,7 @@
 package routes
 
 import (
+	_ "github.com/aogallo/go-server/docs"
 	"github.com/aogallo/go-server/internal/auth"
 	"github.com/aogallo/go-server/internal/middleware"
 	"github.com/aogallo/go-server/internal/product"
@@ -8,21 +9,26 @@ import (
 	"github.com/aogallo/go-server/internal/users"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	// gin-swagger middleware
+	swaggerFiles "github.com/swaggo/files"
 )
 
+// swagger embed files
+
 func SetupRouter(db *gorm.DB) *gin.Engine {
-	// Disable Console Color
-	// gin.DisableConsoleColor()
-	r := gin.Default()
+	router := gin.Default()
 
-	var endpoint = "/api/v1"
+	endpoint := "/api/v1"
 
-	publicRoutes := r.Group(endpoint)
+	publicRoutes := router.Group(endpoint)
 
 	// Auth Routes
 	auth.SetupAuthRoutes(publicRoutes, db)
 
-	protectedRoutes := r.Group(endpoint)
+	protectedRoutes := router.Group(endpoint)
 
 	protectedRoutes.Use(middleware.AuthenticationMiddleware())
 
@@ -35,5 +41,8 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	// Product Routes
 	product.SetupProductRoutes(protectedRoutes, db)
 
-	return r
+	// url := ginSwagger.URL("http://localhost:8080/swagger/swagger.json")
+	publicRoutes.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	return router
 }

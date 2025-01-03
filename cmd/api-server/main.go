@@ -6,6 +6,17 @@ import (
 	"github.com/aogallo/go-server/internal/routes"
 )
 
+//	@title			Golang Rest API
+//	@version		1.0
+//	@termsOfService	http://swagger.io/terms/
+
+//	@contact.name	Allan Gallo
+//	@contact.email	allan.gallo.guerra@gmail.com
+
+//	@host		localhost:8080
+//	@BasePath	/api/v1
+
+//	@Schemes	http https
 func main() {
 	database := db.ConnectDB(".env")
 	defer db.DisconnectDB(database)

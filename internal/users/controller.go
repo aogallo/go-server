@@ -18,6 +18,14 @@ func newUserController(db *gorm.DB) *UserController {
 	return &UserController{DB: db}
 }
 
+// ListUsers	godoc
+//	@Summary		Show the users
+//	@Description	List all existing users
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Success		200		{array}	models.User
+//	@Router			/users	[get]
 func (uc *UserController) GetUsers(context *gin.Context) {
 	var users []models.User
 
