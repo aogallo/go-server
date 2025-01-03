@@ -72,8 +72,39 @@ func (pc *ProductController) GetProductById(context *gin.Context) {
 
 	if result.Error != nil {
 		utils.ErrorResponse(context, http.StatusNotFound, "Product Not Found")
+		context.Abort()
+		return
 	}
 
 	utils.SuccessResponse(context, http.StatusOK, product.ConvertToResponse())
+
+}
+
+func (pc *ProductController) DeleteProductById(context *gin.Context) {
+	var product models.Product
+
+	id := context.Param("id")
+
+	if id == "" {
+		utils.ErrorResponse(context, http.StatusBadRequest, "")
+		context.Abort()
+		return
+	}
+
+	result := pc.DB.First(&product, id)
+
+	if result.Error != nil {
+		utils.ErrorResponse(context, http.StatusNotFound, "Product Not Found")
+		context.Abort()
+		return
+	}
+
+	if error := pc.DB.Delete(&product, id).Error; error != nil {
+		utils.ErrorResponse(context, http.StatusInternalServerError, error.Error())
+		context.Abort()
+		return
+	}
+
+	utils.SimpleSuccessResponse(context, http.StatusNoContent)
 
 }
