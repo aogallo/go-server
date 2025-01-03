@@ -25,10 +25,9 @@ type ProductResponse struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
-func (product *Product) ConvertToResponse() (p ProductResponse) {
+func (product *Product) ConvertToResponse() ProductResponse {
 	return ProductResponse{
-		ID: product.ID,
-
+		ID:          product.ID,
 		Name:        product.Name,
 		Description: product.Description,
 		Price:       product.Price,

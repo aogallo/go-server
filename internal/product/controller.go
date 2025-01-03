@@ -28,7 +28,13 @@ func (pc *ProductController) GetProducts(context *gin.Context) {
 		return
 	}
 
-	utils.SuccessResponse(context, http.StatusOK, products)
+	response := make([]models.ProductResponse, len(products))
+
+	for i, product := range products {
+		response[i] = product.ConvertToResponse()
+	}
+
+	utils.SuccessResponse(context, http.StatusOK, response)
 }
 
 func (pc *ProductController) CreateProduct(context *gin.Context) {
@@ -49,4 +55,25 @@ func (pc *ProductController) CreateProduct(context *gin.Context) {
 	}
 
 	utils.SuccessResponse(context, http.StatusOK, product.ConvertToResponse())
+}
+
+func (pc *ProductController) GetProductById(context *gin.Context) {
+	var product models.Product
+
+	id := context.Param("id")
+
+	if id == "" {
+		utils.ErrorResponse(context, http.StatusBadRequest, "")
+		context.Abort()
+		return
+	}
+
+	result := pc.DB.First(&product, id)
+
+	if result.Error != nil {
+		utils.ErrorResponse(context, http.StatusNotFound, "Product Not Found")
+	}
+
+	utils.SuccessResponse(context, http.StatusOK, product.ConvertToResponse())
+
 }
