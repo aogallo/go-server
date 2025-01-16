@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/aogallo/go-server/internal/db"
-	"github.com/aogallo/go-server/internal/models"
 	"github.com/aogallo/go-server/internal/routes"
+	"github.com/aogallo/go-server/internal/v1/models"
 )
 
 //	@title			Golang Rest API
@@ -16,7 +16,7 @@ import (
 //	@host		localhost:8080
 //	@BasePath	/api/v1
 
-//	@Schemes	http https
+// @Schemes	http https
 func main() {
 	database := db.ConnectDB(".env")
 	defer db.DisconnectDB(database)

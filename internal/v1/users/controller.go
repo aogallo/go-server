@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/aogallo/go-server/internal/models"
 	"github.com/aogallo/go-server/internal/utils"
+	"github.com/aogallo/go-server/internal/v1/models"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -19,6 +19,7 @@ func newUserController(db *gorm.DB) *UserController {
 }
 
 // ListUsers	godoc
+//
 //	@Summary		Show the users
 //	@Description	List all existing users
 //	@Tags			users

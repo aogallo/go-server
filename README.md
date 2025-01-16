@@ -75,4 +75,4 @@ swag init -g ./cmd/api-server/main.go
 
 You can view the documentation at:
 
-[Documentation](http://localthos:8080/swagger/index.html)
+[Documentation](http://localthost:8080/api/v1/swagger/index.html)

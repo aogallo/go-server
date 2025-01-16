@@ -4,9 +4,9 @@ import (
 	_ "github.com/aogallo/go-server/docs"
 	"github.com/aogallo/go-server/internal/auth"
 	"github.com/aogallo/go-server/internal/middleware"
-	"github.com/aogallo/go-server/internal/product"
-	"github.com/aogallo/go-server/internal/roles"
-	"github.com/aogallo/go-server/internal/users"
+	"github.com/aogallo/go-server/internal/v1/product"
+	"github.com/aogallo/go-server/internal/v1/roles"
+	"github.com/aogallo/go-server/internal/v1/users"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
@@ -41,7 +41,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	// Product Routes
 	product.SetupProductRoutes(protectedRoutes, db)
 
-	publicRoutes.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.GET("/swagger/v1/*any", ginSwagger.WrapHandler(swaggerFiles.NewHandler(), ginSwagger.InstanceName("v1")))
 
 	return router
 }
