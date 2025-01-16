@@ -41,7 +41,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	// Product Routes
 	product.SetupProductRoutes(protectedRoutes, db)
 
-	router.GET("/swagger/v1/*any", ginSwagger.WrapHandler(swaggerFiles.NewHandler(), ginSwagger.InstanceName("v1")))
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.NewHandler(), ginSwagger.InstanceName("v1")))
 
 	return router
 }

@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/aogallo/go-server/internal/models"
+	"github.com/aogallo/go-server/internal/v1/models"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -38,11 +38,9 @@ func GenerateToken(payload models.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	return token.SignedString(jwtKey)
-
 }
 
 func VerifyToken(tokenString string) (models.UserResponse, error) {
-
 	if tokenString == "" {
 		return models.UserResponse{}, errors.New("Invalided Token")
 	}
@@ -74,7 +72,6 @@ func VerifyToken(tokenString string) (models.UserResponse, error) {
 }
 
 func getJWT() []byte {
-
 	JWT_SECRET := os.Getenv("JWT_SECRET")
 
 	if JWT_SECRET == "" {
@@ -82,5 +79,4 @@ func getJWT() []byte {
 	}
 
 	return []byte(JWT_SECRET)
-
 }
