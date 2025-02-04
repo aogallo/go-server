@@ -8,7 +8,6 @@ import (
 func SetupUserRoutes(r *gin.RouterGroup, db *gorm.DB) {
 	userController := newUserController(db)
 
-	// Get user value
 	r.GET("/users", userController.GetUsers)
 	r.GET("/users/:id", userController.GetUserById)
 	r.POST("/users", userController.CreateUser)

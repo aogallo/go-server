@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/aogallo/go-server/internal/models"
+	"github.com/aogallo/go-server/internal/v1/models"
 	"github.com/gin-gonic/gin"
 )
 

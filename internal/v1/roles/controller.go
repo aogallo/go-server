@@ -4,24 +4,24 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/aogallo/go-server/internal/models"
 	"github.com/aogallo/go-server/internal/utils"
+	"github.com/aogallo/go-server/internal/v1/models"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
-type RolController struct {
+type RoleController struct {
 	DB *gorm.DB
 }
 
 var validate *validator.Validate
 
-func newRolController(db *gorm.DB) *RolController {
-	return &RolController{DB: db}
+func newRoleController(db *gorm.DB) *RoleController {
+	return &RoleController{DB: db}
 }
 
-func (rc *RolController) GetRoles(c *gin.Context) {
+func (rc *RoleController) GetRoles(c *gin.Context) {
 	var roles []models.Role
 
 	result := rc.DB.Find(&roles)
@@ -34,7 +34,7 @@ func (rc *RolController) GetRoles(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, roles)
 }
 
-func (rc *RolController) CreateRole(c *gin.Context) {
+func (rc *RoleController) CreateRole(c *gin.Context) {
 	var role models.Role
 
 	if err := c.ShouldBindJSON(&role); err != nil {
@@ -52,7 +52,7 @@ func (rc *RolController) CreateRole(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, role)
 }
 
-func (rc *RolController) DeleteRole(c *gin.Context) {
+func (rc *RoleController) DeleteRole(c *gin.Context) {
 	id := c.Param("id")
 
 	if id == "" {
@@ -80,7 +80,7 @@ func (rc *RolController) DeleteRole(c *gin.Context) {
 	utils.SimpleSuccessResponse(c, http.StatusOK)
 }
 
-func (rc *RolController) UpdateRole(c *gin.Context) {
+func (rc *RoleController) UpdateRole(c *gin.Context) {
 	var role models.Role
 	var roleDb models.Role
 
@@ -113,7 +113,7 @@ func (rc *RolController) UpdateRole(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, roleDb)
 }
 
-func (rc *RolController) GetRoleById(c *gin.Context) {
+func (rc *RoleController) GetRoleById(c *gin.Context) {
 	var role models.Role
 	id := c.Param("id")
 
