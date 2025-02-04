@@ -1,0 +1,77 @@
+basePath: /api/v1
+definitions:
+  models.Role:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    required:
+    - name
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      password:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/models.Role'
+        type: array
+      updatedAt:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - firstName
+    - password
+    - username
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: allan.gallo.guerra@gmail.com
+    name: Allan Gallo
+  termsOfService: http://swagger.io/terms/
+  title: Golang Rest API
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: List all existing users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Show the users
+      tags:
+      - users
+schemes:
+- http
+- https
+swagger: "2.0"

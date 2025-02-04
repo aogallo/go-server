@@ -64,3 +64,15 @@ To run tests, run the following command
 ```bash
 go test
 ```
+
+## Generate the documentation
+
+We're using swagger to generate the documentation, so to update the documentation execute the following command:
+
+```bash
+swag init -g ./cmd/api-server/main.go
+```
+
+You can view the documentation at:
+
+[Documentation](http://localthost:8080/api/v1/swagger/index.html)

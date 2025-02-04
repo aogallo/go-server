@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/aogallo/go-server/internal/models"
 	"github.com/aogallo/go-server/internal/utils"
+	"github.com/aogallo/go-server/internal/v1/models"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -18,6 +18,15 @@ func newUserController(db *gorm.DB) *UserController {
 	return &UserController{DB: db}
 }
 
+// ListUsers	godoc
+//
+//	@Summary		Show the users
+//	@Description	List all existing users
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Success		200		{array}	models.User
+//	@Router			/users	[get]
 func (uc *UserController) GetUsers(context *gin.Context) {
 	var users []models.User
 
@@ -120,7 +129,7 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 	userDB, result := getUserById(id, uc)
 
 	if result.Error != nil {
-		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", result.Error.Error()))
+		utils.ErrorResponse(context, http.StatusNotFound, "User Not Found!")
 		context.Abort()
 		return
 	}
@@ -130,8 +139,17 @@ func (uc *UserController) UpdateUser(context *gin.Context) {
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Email:     user.Email,
-		Roles:     user.Roles,
 	})
+
+	if user.Roles != nil {
+		var roles []models.Role
+
+		uc.DB.Where("name IN ? ", user.Roles).Find(&roles)
+
+		for _, role := range roles {
+			uc.DB.Model(&userDB).Association("Roles").Append(&role)
+		}
+	}
 
 	if updatedResult.Error != nil {
 		utils.ErrorResponse(context, http.StatusNotFound, fmt.Sprintf("User validation failed!. %s", updatedResult.Error.Error()))
