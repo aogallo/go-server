@@ -62,7 +62,7 @@ air
 To run tests, run the following command
 
 ```bash
-go test
+go test ./tests
 ```
 
 ## Generate the documentation
